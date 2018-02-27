@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="webpack," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本篇是对于 wabpack 学习的笔记。由于 webpack 官方文档略微有点难读懂，所以这几天我一边看文档一边试着用 webpack 做了一个轮播组件。本篇博文主要是用来记录我在做这个组件的时候遇到的问题以及学到的内容。">
+<meta name="keywords" content="webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack 初探">
+<meta property="og:url" content="http://ruiwenruiwen.github.io/2017/07/28/webpack 初探/index.html">
+<meta property="og:site_name" content="ZRW&#39;blog">
+<meta property="og:description" content="本篇是对于 wabpack 学习的笔记。由于 webpack 官方文档略微有点难读懂，所以这几天我一边看文档一边试着用 webpack 做了一个轮播组件。本篇博文主要是用来记录我在做这个组件的时候遇到的问题以及学到的内容。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-07-28T13:13:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack 初探">
+<meta name="twitter:description" content="本篇是对于 wabpack 学习的笔记。由于 webpack 官方文档略微有点难读懂，所以这几天我一边看文档一边试着用 webpack 做了一个轮播组件。本篇博文主要是用来记录我在做这个组件的时候遇到的问题以及学到的内容。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://ruiwenruiwen.github.io/2017/07/28/webpack 初探/"/>
+
+
+
+
+
+  <title>webpack 初探 | ZRW'blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZRW'blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ruiwenruiwen.github.io/2017/07/28/webpack 初探/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zrw">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZRW'blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">webpack 初探</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-28T21:07:35+08:00">
+                2017-07-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本篇是对于 wabpack 学习的笔记。由于 webpack 官方文档略微有点难读懂，所以这几天我一边看文档一边试着用 webpack 做了一个轮播组件。本篇博文主要是用来记录我在做这个组件的时候遇到的问题以及学到的内容。</p>
+<a id="more"></a>
+<h2 id="webpack-结构"><a href="#webpack-结构" class="headerlink" title="webpack 结构"></a>webpack 结构</h2><p>webpack 是一个模块打包机，它分析你的项目结构，找到JavaScript模块以及其它的一些浏览器不能直接运行的拓展语言（scss，TypeScript等），将其打包为合适的格式以供浏览器使用。它还可以将按需加载的模块进行代码分隔，等到实际需要的时候再异步加载。</p>
+<p>webpack 的配置主要是在 <code>webpack.config.js</code> 以及 <code>packge.json</code> 中。接下来就记录一下我在配置自己的 webpack 项目中学习到的东西。（所用的版本是 webpack 3.xxx ）</p>
+<h3 id="入口起点与出口"><a href="#入口起点与出口" class="headerlink" title="入口起点与出口"></a>入口起点与出口</h3><p>首先， webpack 需要一个入口文件，这是所有依赖关系的入口，webpack 从这个入口开始静态解析，分析模块之间的依赖关系。这个入口文件内可以用 AMD , require JS 等方式引入其他的文件。</p>
+<p>webpack 还需要一个出口，表示文件打包后存放在哪里，以及打包后的文件名是什么。</p>
+<p>具体配置如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: __dirname +  <span class="string">"/src/core.js"</span>,        <span class="comment">//唯一入口文件的写法</span></span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.join(__dirname, <span class="string">'/build'</span>),  <span class="comment">//打包后文件存放的文件夹</span></span><br><span class="line">        filename: <span class="string">'demo.js'</span>                     <span class="comment">//打包后输出文件的文件名</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述入口起点的写法是只有一个入口文件的写法。根据官方文档，webpack 还可以有多个入口文档，并且可以像上述出口设置一般，用对象的方法表示。</p>
+<h3 id="loader"><a href="#loader" class="headerlink" title="loader"></a>loader</h3><p>loader 是对应用程序中资源文件进行转换。通过不同的 loader ，webpack 可以对将各种资源文件转换成新的浏览器能够直接使用的文件。</p>
+<p>要使用这些不同的 loader ，需要下载。比如：</p>
+<ul>
+<li><code>npm install css-loader style-loader --save-dev</code>：安装 babel-loader 进行转码</li>
+<li><code>npm install babel-preset-es2015 --save-dev</code>：设置转码规则，使不能直接运行的代码（如 es6 ）转成浏览器可以运行的代码</li>
+<li><code>npm install css-loader style-loader --save-dev</code>：css-loader会遍历css文件，找到所有的 url(…) 并且处理。style-loader 会把所有的样式插入到你页面的一个 style tag 中。</li>
+</ul>
+<p>倘若是代码中使用了 <code>scss</code>，<code>less</code> 等 css 预处理器，或者是用了 <code>react</code>， <code>express</code> 等模块，也需要下载相应的 loader 。</p>
+<p>loader 的配置包含以下几个方面：</p>
+<ul>
+<li><code>test</code>：一个匹配loaders所处理的文件的拓展名的正则表达式（必须）</li>
+<li><code>loader</code>：loader的名称（必须）</li>
+<li><code>include/exclude</code>：手动添加必须处理的文件（文件夹）或屏蔽不需要处理的文件（文件夹）（可选）</li>
+<li><code>query</code>：为 loaders 提供额外的设置选项（可选）</li>
+</ul>
+<p>在这次的练习中，我的配置如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">        &#123;</span><br><span class="line">            test:<span class="regexp">/\.js$/</span>,</span><br><span class="line">            exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">            loader: <span class="string">'babel-loader'</span>,</span><br><span class="line">            query: &#123;</span><br><span class="line">			    presets: [<span class="string">'es2015'</span>]</span><br><span class="line">			&#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            test:<span class="regexp">/\.css$/</span>,</span><br><span class="line">            loader: <span class="string">'style-loader!css-loader?modules'</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>需要注意的是：如果将 css 的 loader 设置成 <code>loader: &#39;style-loader!css-loader?modules</code> 那么打包过后的 css 选择器将会被编码成与 css 文件中定义的不同。如果是 <code>loader: &#39;style-loader!css-loader</code> 则不会有这种情况。这是因为 modules 表示打开 css modules 功能，一般来说css的作用域都是全局的，我们常在母版页里面添加了多个样式文件，后面的样式文件会覆盖前面的样式文件，常常给我们的调试带来麻烦。而 css modules 通过 import 引入了本地作用域。这样能够避免命名空间冲突。因此会出现看似 css 选择器乱码的现象。</p>
+<h3 id="plugins"><a href="#plugins" class="headerlink" title="plugins"></a>plugins</h3><p>插件也是 webpack 重要的一部分。他的目的在于解决 loader 无法实现的事情。</p>
+<p>由于 plugin 可以携带参数/选项，在配置插件的时候，需要向 plugins 属性传入 new 实例。如下所示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">        template: __dirname + <span class="string">"/src/index.html"</span></span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.HotModuleReplacementPlugin()</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
+<p>在此介绍上述两个常用插件：</p>
+<ul>
+<li><code>HtmlWebpackPlugin</code>：这个插件用来简化创建服务于 webpack bundle 的 HTML 文件，尤其是对于在文件名中包含了 hash 值，而这个值在每次编译的时候都发生变化的情况。既可以让这个插件来帮助你自动生成 HTML 文件，也可以使用 lodash 模板加载生成的 bundles，或者自己加载这些 bundles 。</li>
+<li><code>HotModuleReplacementPlugin</code>：这是大名鼎鼎的热模块替换。在某些场景下，可以在不刷新页面的情况下让代码生效，并且可以即时反应到浏览器上。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">devServer: &#123;</span><br><span class="line">    contentBase: path.join(__dirname, <span class="string">"src"</span>),</span><br><span class="line">    historyApiFallback: <span class="literal">true</span>,</span><br><span class="line">    inline: <span class="literal">true</span>，  <span class="comment">//使用 inline 模式，将webpack-dev-sever的客户端入口添加到包(bundle)中</span></span><br><span class="line">    port: <span class="number">3000</span>     <span class="comment">//打开的端口  不写此行则打开的为默认的 8080 端口</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>webpack-dev-server 是 webpack 官方提供的一个小型 Express 服务器。使用它可以为webpack打包生成的资源文件提供web服务。</p>
+<p>webpack-dev-server 主要提供两个功能：</p>
+<ul>
+<li>为静态文件提供服务</li>
+<li>自动刷新和热替换(HMR)</li>
+</ul>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>经过以上的配置后，若要运行还需要在 <code>packet.json</code> 中经过一下配置：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"test"</span>: <span class="string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span>,</span><br><span class="line">    <span class="string">"build"</span>: <span class="string">"webpack -p"</span>,                         <span class="comment">//生产环境使用</span></span><br><span class="line">    <span class="string">"dev"</span>: <span class="string">"webpack-dev-server --progress"</span>         <span class="comment">//开发环境使用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>packet.json</code> 中的 <code>script</code> 对象可以用来写一些脚本命令。</p>
+<p>现在，可以在命令行通过以下命令：</p>
+<ul>
+<li><code>npm run dev</code>：启动开发环境，并且支持热更新。</li>
+<li><code>npm run build</code>：打包生产环境的代码。-p 参数会开启生产环境模式。在这个模式下 webpack 会将代码做压缩等优化。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>webpack 是我目前学习的唯一的一个前端工程化的工具，也许这篇博文说的不大详尽，也不能解决我目前遇到的所有问题。不过我还是希望先做一个笔记，方便以后的学习。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/webpack/" rel="tag"># webpack</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/18/JavaScript 函数式编程（二）：柯里化函数与偏函数/" rel="next" title="JavaScript 函数式编程（二）：柯里化函数与偏函数">
+                <i class="fa fa-chevron-left"></i> JavaScript 函数式编程（二）：柯里化函数与偏函数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/03/拖延癌晚期治疗/" rel="prev" title="拖延癌晚期治疗">
+                拖延癌晚期治疗 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zrw</p>
+              <p class="site-description motion-element" itemprop="description">记录个人学习笔记之地</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#webpack-结构"><span class="nav-number">1.</span> <span class="nav-text">webpack 结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#入口起点与出口"><span class="nav-number">1.1.</span> <span class="nav-text">入口起点与出口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#loader"><span class="nav-number">1.2.</span> <span class="nav-text">loader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#plugins"><span class="nav-number">1.3.</span> <span class="nav-text">plugins</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行"><span class="nav-number">2.</span> <span class="nav-text">运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zrw</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

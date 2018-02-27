@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="项目总结," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="暑假夏令营的最后一个礼拜，我们大一的捞仔们和Java组的两个小伙伴一起合作了CscwPages的项目。这是我们六个人第一次携手做一个项目，有很多东西需要学习与磨合的。而且因为一个意外，我在遥远的惠州远程开发，所以分配給我的任务是较为离散的首页和联系我们部分。这个部分的内容比较简单。基本上是页面的html+css的布局，没有什么难度系数大的js。对我来说在完成过程中比较有阻碍的还是讨论方面的问题。">
+<meta name="keywords" content="项目总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CscwPages项目总结">
+<meta property="og:url" content="http://ruiwenruiwen.github.io/2016/08/24/CscwPages项目总结/index.html">
+<meta property="og:site_name" content="ZRW&#39;blog">
+<meta property="og:description" content="暑假夏令营的最后一个礼拜，我们大一的捞仔们和Java组的两个小伙伴一起合作了CscwPages的项目。这是我们六个人第一次携手做一个项目，有很多东西需要学习与磨合的。而且因为一个意外，我在遥远的惠州远程开发，所以分配給我的任务是较为离散的首页和联系我们部分。这个部分的内容比较简单。基本上是页面的html+css的布局，没有什么难度系数大的js。对我来说在完成过程中比较有阻碍的还是讨论方面的问题。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2016-08-24T15:32:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CscwPages项目总结">
+<meta name="twitter:description" content="暑假夏令营的最后一个礼拜，我们大一的捞仔们和Java组的两个小伙伴一起合作了CscwPages的项目。这是我们六个人第一次携手做一个项目，有很多东西需要学习与磨合的。而且因为一个意外，我在遥远的惠州远程开发，所以分配給我的任务是较为离散的首页和联系我们部分。这个部分的内容比较简单。基本上是页面的html+css的布局，没有什么难度系数大的js。对我来说在完成过程中比较有阻碍的还是讨论方面的问题。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://ruiwenruiwen.github.io/2016/08/24/CscwPages项目总结/"/>
+
+
+
+
+
+  <title>CscwPages项目总结 | ZRW'blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZRW'blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ruiwenruiwen.github.io/2016/08/24/CscwPages项目总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zrw">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZRW'blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CscwPages项目总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-24T23:31:47+08:00">
+                2016-08-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>暑假夏令营的最后一个礼拜，我们大一的捞仔们和Java组的两个小伙伴一起合作了CscwPages的项目。这是我们六个人第一次携手做一个项目，有很多东西需要学习与磨合的。<br>而且因为一个意外，我在遥远的惠州远程开发，所以分配給我的任务是较为离散的首页和联系我们部分。<br>这个部分的内容比较简单。基本上是页面的html+css的布局，没有什么难度系数大的js。对我来说在完成过程中比较有阻碍的还是讨论方面的问题。</p>
+<a id="more"></a>
+<h2 id="布局的构思与响应式的实现"><a href="#布局的构思与响应式的实现" class="headerlink" title="布局的构思与响应式的实现"></a>布局的构思与响应式的实现</h2><p>其实项目一完成的时候，我就写了一篇关于CSS布局的感想，传送门：<a href="https://ruiwenruiwen.github.io/2016/08/08/CSS%E5%B8%83%E5%B1%80%E6%9C%89%E6%84%9F/" target="_blank">CSS布局有感</a>。此篇感想是基于做协同主页项目的感受而写的，于此，将简单的说一说这部分的内容。</p>
+<p>做任意一个页面之前，为了他的功能的实现，必须得先构思好，这个页面的整体布局方式。因为布局不仅仅是将一些元素纯粹的堆砌在一起，还得考虑他的js实现以及响应式的实现。</p>
+<p>首先来谈基本的布局。</p>
+<p>在这次的项目中，对于布局，我印象比较深刻的是两种，一种是基于px的布局方式，一种是基于% 的布局方式。</p>
+<p>在整体导航栏＋四个大container这部分的实现，由于和鹏腾讨论了一下如何布局并且在自己的页面中的实现过程中也踩了一些坑，尤其思考了这两种布局方式。</p>
+<p>无疑，布局方式也要多思考与多一些尝试。最终我所得出的结论是，在各个页面不互相影响的情况下，如果是对于一些导航栏，图片标题，标签等等不适宜根据屏幕分辨率变化而发生大小改变的这类，应当使用基于px的布局方式；然而，如果是一些大容器，自适应屏幕存在的元素，使用基于% 的布局方式更方便。</p>
+<p>再者，我们来谈谈响应式的实现。</p>
+<p>此次的响应式，我们采取的是用CSS3 @media query和bootstrap的方式来实现。</p>
+<p>容易发现的是，一般来说，有固定比例布局且字体变化在一定范围内不是非常明显的页面，可以使用bootstrap+CSS3 @media query的方式来实现响应式，就像是我们的页面的各组简介的入口部分；然而，当页面的布局随着分辨率的减小而改变，字体需要适时变化时，bootstrap就显得不适用了。</p>
+<p>bootstrap虽好，可不要贪杯哦~</p>
+<h2 id="动画与兼容"><a href="#动画与兼容" class="headerlink" title="动画与兼容"></a>动画与兼容</h2><h3 id="jQuery的基础动画"><a href="#jQuery的基础动画" class="headerlink" title="jQuery的基础动画"></a>jQuery的基础动画</h3><p>就像之前说的，在这一部分的js比较简单，基本上是一些jQuery的基础的动画。主要的是要理解清楚动画队列的问题，然后处理还节奏的关系。</p>
+<h3 id="兼容性问题"><a href="#兼容性问题" class="headerlink" title="兼容性问题"></a>兼容性问题</h3><p>此处需要大喊一声，我爱UC浏览器（围笑）</p>
+<p>在用手机测试的时候，我们发现一个问题，唯独在UC浏览器中，经过动画之后，页面布局会错位。</p>
+<p>当时找了一下解决方法，发现原来UC用的是另外一套标准，而且UC为了追求速度，舍弃了一些功能，然而这对于bug的解决没有什么直接的作用。于是就到了随意试试的阶段。最终发现，原来在用jQuery动画时，如果是给下有几个元素的container使用类名或者id名来让以下各个元素都发生位置改变而产生动画的话，在UC浏览器中，就会错位。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"mainIntro"</span>&gt;</span><br><span class="line">	&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"uc1"</span>&gt;工作室大简&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">	&lt;span class="uc2"&gt;工作室&lt;/</span>span&gt;</span><br><span class="line">	&lt;span <span class="class"><span class="keyword">class</span></span>=<span class="string">"blue"</span>&gt;大简介工&lt;<span class="regexp">/span&gt;&lt;span class="blue2"&gt;作室&lt;/</span>span&gt;	</span><br><span class="line">&lt;<span class="regexp">/div&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如以上代码中，如果不给uc1，uc2等设置类名，直接用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">".mainIntro"</span>).delay(<span class="number">1000</span>).animate(&#123;<span class="string">"margin-top"</span>:<span class="string">"60px"</span>&#125;,<span class="number">500</span>);</span><br></pre></td></tr></table></figure>
+<p>则会发生不可描述的错位，需要把container中的元素也设置类名才能够正常动画。</p>
+<p>然而在下方的这段代码中，却不会发生什么错误。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"intromore"</span>&gt;</span><br><span class="line">	&lt;p&gt;工作室小简介工作室小简介工作室小简介工作室小简介工作室小简介工作室小简介工作室小简介工作室小简介工作室小简介&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">	&lt;p&gt;工作室小简介工作室小简介工作室小简介工作室小简介工作室小简介工作室小简介工作室小简介&lt;/</span>p&gt;</span><br><span class="line">	&lt;p&gt;工作室小简介工作室小简介工作室小简介工作室小简介工作室小简介工作室小简介工作室小简介工作室小简介&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>div&gt;</span><br></pre></td></tr></table></figure>
+<p>神奇的UC。</p>
+<h2 id="Git多人协作"><a href="#Git多人协作" class="headerlink" title="Git多人协作"></a>Git多人协作</h2><p>最后，得说说Git多人协作的问题。</p>
+<p>在考核的时候就有接触过git，不过对于命令行的操作，如果没有真正的去使用，并且对着教程一步步执行的话，对于我来说很容易出错。</p>
+<p>在一开始，在做着这个项目的时候，我因为不大熟悉git的操作，一直迟迟没有更新分支，由于离得比较远也没能及时问清楚该怎么做，在网上找的教程也是零零碎碎，实际遇到的情况的解决方法总是在下一个搜索内容中情况常有发生。</p>
+<p>最后的最后，还是回来好好抱了小喵的大腿（有一回小喵直接远程控制电脑手把手教学如何push），乖乖的看了廖雪峰的git 多人协作的部分，然后多push了几遍才得以顺利操作了git这玩意儿。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>最后的最后，还有一点：</p>
+<p>由于这是多人协作完成的一个网页，真的要及时的和伙伴们多交流多沟通呀~</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/项目总结/" rel="tag"># 项目总结</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/14/记回忆满满又遗憾重重的夏天/" rel="next" title="记回忆满满又遗憾重重的夏天">
+                <i class="fa fa-chevron-left"></i> 记回忆满满又遗憾重重的夏天
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/06/深入理解 BFC/" rel="prev" title="深入理解 BFC">
+                深入理解 BFC <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zrw</p>
+              <p class="site-description motion-element" itemprop="description">记录个人学习笔记之地</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#布局的构思与响应式的实现"><span class="nav-number">1.</span> <span class="nav-text">布局的构思与响应式的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动画与兼容"><span class="nav-number">2.</span> <span class="nav-text">动画与兼容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery的基础动画"><span class="nav-number">2.1.</span> <span class="nav-text">jQuery的基础动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#兼容性问题"><span class="nav-number">2.2.</span> <span class="nav-text">兼容性问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git多人协作"><span class="nav-number">3.</span> <span class="nav-text">Git多人协作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">4.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zrw</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

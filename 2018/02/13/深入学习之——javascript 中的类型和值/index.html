@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="javascript," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="众所周知，JavaScript 中有七种内置类型：  空值（null） 未定义（undefined） 布尔值（boolean） 数字（number） 字符串（string） 对象（object） 符号（symbol）  可以通过 typeof 运算符来查看值的类型。但是，这七种类型和它们的字符串值并非一一对应 123456789typeof undefined === &apos;undefined&apos;；">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入学习之——javascript 中的类型和值">
+<meta property="og:url" content="http://ruiwenruiwen.github.io/2018/02/13/深入学习之——javascript 中的类型和值/index.html">
+<meta property="og:site_name" content="ZRW&#39;blog">
+<meta property="og:description" content="众所周知，JavaScript 中有七种内置类型：  空值（null） 未定义（undefined） 布尔值（boolean） 数字（number） 字符串（string） 对象（object） 符号（symbol）  可以通过 typeof 运算符来查看值的类型。但是，这七种类型和它们的字符串值并非一一对应 123456789typeof undefined === &apos;undefined&apos;；">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://ruiwenruiwen.github.io/2018/02/13/深入学习之——javascript%20中的类型和值/11111.png">
+<meta property="og:image" content="http://ruiwenruiwen.github.io/2018/02/13/深入学习之——javascript%20中的类型和值/22222.png">
+<meta property="og:updated_time" content="2018-02-13T16:48:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入学习之——javascript 中的类型和值">
+<meta name="twitter:description" content="众所周知，JavaScript 中有七种内置类型：  空值（null） 未定义（undefined） 布尔值（boolean） 数字（number） 字符串（string） 对象（object） 符号（symbol）  可以通过 typeof 运算符来查看值的类型。但是，这七种类型和它们的字符串值并非一一对应 123456789typeof undefined === &apos;undefined&apos;；">
+<meta name="twitter:image" content="http://ruiwenruiwen.github.io/2018/02/13/深入学习之——javascript%20中的类型和值/11111.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://ruiwenruiwen.github.io/2018/02/13/深入学习之——javascript 中的类型和值/"/>
+
+
+
+
+
+  <title>深入学习之——javascript 中的类型和值 | ZRW'blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZRW'blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ruiwenruiwen.github.io/2018/02/13/深入学习之——javascript 中的类型和值/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zrw">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZRW'blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深入学习之——javascript 中的类型和值</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-13T23:17:08+08:00">
+                2018-02-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>众所周知，JavaScript 中有七种内置类型：</p>
+<ul>
+<li>空值（null）</li>
+<li>未定义（undefined）</li>
+<li>布尔值（boolean）</li>
+<li>数字（number）</li>
+<li>字符串（string）</li>
+<li>对象（object）</li>
+<li>符号（symbol）</li>
+</ul>
+<p>可以通过 <code>typeof</code> 运算符来查看值的类型。但是，这七种类型和它们的字符串值并非一一对应</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="literal">undefined</span> === <span class="string">'undefined'</span>；    <span class="comment">// true</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="literal">true</span> === <span class="string">'boolean'</span>；           <span class="comment">// true</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="number">12</span> === <span class="string">'number'</span>；              <span class="comment">// true</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="string">'12'</span> === <span class="string">'string'</span>；            <span class="comment">// true</span></span><br><span class="line"><span class="keyword">typeof</span> &#123; <span class="attr">number</span>: <span class="number">12</span> &#125; === <span class="string">'object'</span>；  <span class="comment">// true</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="built_in">Symbol</span>() === <span class="string">'symbol'</span>;         <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 而 null 有所不同</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="literal">null</span> === <span class="string">'null'</span>;               <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>事实上，对于 <code>typeof null</code> 的返回结果，是 <code>object</code>。这是 JavaScript 设计以来的一个 bug 。单单只用 <code>typeof</code> 运算符来检测 <code>null</code> 值的类型并不适用，因此我们需要用符合条件来检测：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="literal">null</span>;</span><br><span class="line">(!a &amp;&amp; <span class="keyword">typeof</span> <span class="literal">null</span> === <span class="string">'object'</span>);    <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="值和引用"><a href="#值和引用" class="headerlink" title="值和引用"></a>值和引用</h2><p>在 JavaScript 中的赋值，分有值复制和引用复制。其中：</p>
+<p>简单值（也就是标量基本类型值），通过值复制的方式来赋值/传递，包括 null 、undefined 、字符串、数字、布尔和 symbol 。<br>复合值（引用类型），对象（包括数组和封装对象）和函数，通过引用复制的方式来赋值/传递。</p>
+<h3 id="值复制"><a href="#值复制" class="headerlink" title="值复制"></a>值复制</h3><p>值复制的存储方式是保存在栈区的，指的是在变量对象上创建一个新值，然后把该值复制到为新变量分配的位置上。对这两个变量可以进行任何操作，但是不会相互影响。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">var</span> b = a;  <span class="comment">// b 是 a 的一个副本</span></span><br><span class="line">b++;</span><br><span class="line">a;          <span class="comment">// 2</span></span><br><span class="line">b;          <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+<p><img src="/2018/02/13/深入学习之——javascript 中的类型和值/11111.png" alt="值复制"></p>
+<h3 id="引用复制"><a href="#引用复制" class="headerlink" title="引用复制"></a>引用复制</h3><p>引用复制的存储方式是引用存放在栈区，实际对象保存在堆区。当一个变量对另一个变量进行引用复制时，同样也会将存储在变量对象中的值复制一份到为新变量分配的空间中。不同的是，这个值的副本其实是一个指针，而这个指针指向存储在对堆中的一个对象。在进行引用复制后，连个变量实际上引用的是同一个对象。因此，改变其中一个变量，会影响另一个变量。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> c = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> d = c;  <span class="comment">// d 是 [1, 2, 3] 的一个引用</span></span><br><span class="line">d.push(<span class="number">4</span>);</span><br><span class="line">c;          <span class="comment">// [1, 2, 3, 4]</span></span><br><span class="line">d;          <span class="comment">// [1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
+<p>注意的是：引用指向的是值本身，一个引用的改变无法更改另一个引用的指向，使得另一个引用也跟着改变。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> b = a;</span><br><span class="line">a;     <span class="comment">// [1, 2, 3]</span></span><br><span class="line">b;     <span class="comment">// [1, 2, 3]</span></span><br><span class="line"></span><br><span class="line">b = [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">a;     <span class="comment">// [1, 2, 3]</span></span><br><span class="line">b;     <span class="comment">// [4, 5, 6]</span></span><br></pre></td></tr></table></figure>
+<p> b = [4, 5, 6] 表示了 b 更改其指向，可是并不影响 a 指向值 [1, 2, 3]。</p>
+<p><img src="/2018/02/13/深入学习之——javascript 中的类型和值/22222.png" alt="引用复制"></p>
+<h3 id="参数传递"><a href="#参数传递" class="headerlink" title="参数传递"></a>参数传递</h3><p>在函数中所有的参数都是按值传递的：</p>
+<ul>
+<li>简单值：把变量里的值传递给参数，之后参数和变量互不影响。</li>
+<li>复杂值：把对象变量在堆内存中的内存地址传递给参数，使得参数指向该对象。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">	x.push(<span class="number">4</span>);</span><br><span class="line">	x;</span><br><span class="line">	</span><br><span class="line">    x = [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];</span><br><span class="line">    x.push(<span class="number">7</span>);</span><br><span class="line">    x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line">foo(a);</span><br><span class="line"></span><br><span class="line">a;        <span class="comment">// [1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
+<p>a 指向的值是 <code>[1, 2, 3]</code> ，在向函数传递 <code>a</code> 的值的时候，实际是将引用 <code>a</code> 的一个副本赋值给 <code>x</code> ，在函数中进行 <code>x.push(4)</code> 操作，实际上是对堆内存中同一个对象的操作，<code>a</code> 和 <code>x</code> 的值都变成 <code>[1, 2, 3, 4]</code> 。当执行 <code>x = [4, 5, 6]</code> 时，参数 <code>x</code> 改变指向，此操作并不影响 <code>a</code> 的指向， <code>a</code> 仍为 <code>[1, 2, 3, 4]</code>。</p>
+<h2 id="基本包装类型"><a href="#基本包装类型" class="headerlink" title="基本包装类型"></a>基本包装类型</h2><p>特别要说明的是，为了方便操作基本类型值，JavaScript 还提供了 3 个特殊的引用类型：<code>Boolean</code>，<code>Number</code> 和 <code>String</code>。这些类型使得我们能够通过对象的方式去操作基本类型值。</p>
+<p>但是这些类型和上述说的引用类型有所不同，主要在于：</p>
+<ul>
+<li>每个包装类型都映射到同名的基本类型</li>
+<li>在读取模式下访问基本类型值时，会创建对应的基本包装类型的对象，从而方便数据操作</li>
+<li>操作基本类型值的语句一经结束，就立即销毁新创建的包装对象</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s1 = <span class="string">'some text'</span>;</span><br><span class="line"><span class="keyword">var</span> s2 = s1.toUpperCase;  <span class="comment">// 'SOME TEXT'</span></span><br></pre></td></tr></table></figure>
+<p>上述例子可以想象它的执行为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s1 = <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">'some text'</span>);</span><br><span class="line"><span class="keyword">var</span> s2 = s1.toUpperCase;</span><br><span class="line">s1 = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>JavaScript 中有七种内置类型：空值（null）、 未定义（undefined）、布尔值（boolean）、数字（number）、字符串（string）、对象（object）、符号（symbol）</li>
+<li>在进行值的复制的时候，基本类型的值是值复制，引用类型的值是引用复制</li>
+<li>函数中所有的参数都是按值传递的</li>
+<li>为了方便操作基本类型值，JavaScript 还提供了 3 个特殊的引用类型：<code>Boolean</code>，<code>Number</code> 和 <code>String</code>。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/20/浮点数运算不精准的解决办法/" rel="next" title="浮点数运算不精准的解决办法">
+                <i class="fa fa-chevron-left"></i> 浮点数运算不精准的解决办法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zrw</p>
+              <p class="site-description motion-element" itemprop="description">记录个人学习笔记之地</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#值和引用"><span class="nav-number">1.</span> <span class="nav-text">值和引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#值复制"><span class="nav-number">1.1.</span> <span class="nav-text">值复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用复制"><span class="nav-number">1.2.</span> <span class="nav-text">引用复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数传递"><span class="nav-number">1.3.</span> <span class="nav-text">参数传递</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本包装类型"><span class="nav-number">2.</span> <span class="nav-text">基本包装类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zrw</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="javascript," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="如果说上个礼拜的学习，什么使我最为印象深刻，最为醍醐灌顶，那恐怕是作用域与作用域链莫属了。作用域与作用域链是JavaScript的核心，同时，它更是JavaScript的基础。学习一门语言，不仅仅是学习它的惯常用法，还需要学习在日常使用中背后的一些语法规则。学习计算机语言也是如此。于是乎，接下来我们就来讨论一下JavaScript的核心之作用域与作用域链。">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析JavaScript之核心——作用域与作用域链">
+<meta property="og:url" content="http://ruiwenruiwen.github.io/2016/07/27/浅析JavaScript之核心——作用域与作用域链/index.html">
+<meta property="og:site_name" content="ZRW&#39;blog">
+<meta property="og:description" content="如果说上个礼拜的学习，什么使我最为印象深刻，最为醍醐灌顶，那恐怕是作用域与作用域链莫属了。作用域与作用域链是JavaScript的核心，同时，它更是JavaScript的基础。学习一门语言，不仅仅是学习它的惯常用法，还需要学习在日常使用中背后的一些语法规则。学习计算机语言也是如此。于是乎，接下来我们就来讨论一下JavaScript的核心之作用域与作用域链。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2016-07-26T17:14:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅析JavaScript之核心——作用域与作用域链">
+<meta name="twitter:description" content="如果说上个礼拜的学习，什么使我最为印象深刻，最为醍醐灌顶，那恐怕是作用域与作用域链莫属了。作用域与作用域链是JavaScript的核心，同时，它更是JavaScript的基础。学习一门语言，不仅仅是学习它的惯常用法，还需要学习在日常使用中背后的一些语法规则。学习计算机语言也是如此。于是乎，接下来我们就来讨论一下JavaScript的核心之作用域与作用域链。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://ruiwenruiwen.github.io/2016/07/27/浅析JavaScript之核心——作用域与作用域链/"/>
+
+
+
+
+
+  <title>浅析JavaScript之核心——作用域与作用域链 | ZRW'blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZRW'blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ruiwenruiwen.github.io/2016/07/27/浅析JavaScript之核心——作用域与作用域链/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zrw">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZRW'blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">浅析JavaScript之核心——作用域与作用域链</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-27T01:12:30+08:00">
+                2016-07-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>如果说上个礼拜的学习，什么使我最为印象深刻，最为醍醐灌顶，那恐怕是作用域与作用域链莫属了。<br>作用域与作用域链是JavaScript的核心，同时，它更是JavaScript的基础。学习一门语言，不仅仅是学习它的惯常用法，还需要学习在日常使用中背后的一些语法规则。学习计算机语言也是如此。<br>于是乎，接下来我们就来讨论一下JavaScript的核心之作用域与作用域链。</p>
+<a id="more"></a>
+<h2 id="作用域是什么"><a href="#作用域是什么" class="headerlink" title="作用域是什么"></a>作用域是什么</h2><p>理解作用域与作用域链，要首先理解环境的概念。执行环境，也称为环境，定义了变量或函数有权访问的其他数据，决定了它们各自的行为。而一个变量或者函数的作用域，是程序中定义这个变量或是函数的区域。当代码在一个环境中执行，会创建变量对象的一个作用域链。</p>
+<h2 id="作用机制"><a href="#作用机制" class="headerlink" title="作用机制"></a>作用机制</h2><p>按照《JavaScript高级程序设计》中所讲解的，作用域与作用域链的作用机制其实是：每个函数都有自己的执行函数。当执行流进入一个函数时，函数的环境就会被推入一个环境栈中。在函数执行之后，栈将其环境弹出，把控制权返回给之前的执行函数。</p>
+<p>其实，按照我的理解，作用域与作用域链的作用机制，可以用三句话来概括。</p>
+<p>①  作用域的前端始终是当前执行的函数，而全局环境的变量对象始终是作用域链中的最后一个对象。<br>②  子域可以访问父域，而父域不能访问子域。<br>③  JavaScript解析器会搜寻最近的定义的值。如果搜寻不到，将沿着作用域链逐级向上寻找。</p>
+<p>下面举个例子来说明一下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> color = <span class="string">"blue"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeColor</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> anotherColor = <span class="string">"red"</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">swapColors</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">var</span> tempColor = anotherColor;</span><br><span class="line">		anotherColor = color;</span><br><span class="line">		color = tempColor;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//这里可以访问color anotherColor 和tempColor;		</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//这里可以访问color 和 anotherColor  但不能访问 tempColor swapColors();</span></span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line"><span class="comment">//这里只能访问color；</span></span><br><span class="line">changeColor();</span><br><span class="line"></span><br><span class="line"><span class="string">``</span><span class="string">` </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">在这个例子中，我们可以看到总共有三个执行环境：全局环境，changeColor()的局部环境和 swapColors() 的局部环境。这块代码的作用域链是：swapColors() 在作用域链的前端，有着tempColor 变量，接下来是changeColor() 有着anotherColor变量，最后是全局环境下的color变量。因此，按照子域可以访问父域，而父域不能访问子域的原则，在swapColors()局部环境中，可以访问color anotherColor 和tempColor; 在changeColor()的局部环境中，可以访问color 和 anotherColor  但不能访问 tempColor swapColors();而在全局环境下，只能访问color。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">然而，我们再来看看下面这个例子：</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="string">``</span>javascript</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> func = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> num = <span class="number">10</span>;</span><br><span class="line">	<span class="keyword">var</span> sub_func = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		 <span class="keyword">var</span> num = <span class="number">20</span>;</span><br><span class="line">		 alert(num);</span><br><span class="line">	&#125;;</span><br><span class="line">	sub_func();</span><br><span class="line">	<span class="comment">//alert(num);</span></span><br><span class="line">&#125;;</span><br><span class="line">func();</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，作用域链为sub_func，下有num变量，过来是func，下也有一个num变量，上述代码打印出来的数字是20，倘若将sub_func 中的alert(num)去掉，并取消func中alert(num)的注释，则打印出来的数字是10。</p>
+<p>再来重新做一个实验，如果将num = 20；去掉，则打印出来的数字是10，如果再把num=10；去掉，则打印出来的数字是undefined。这个实验验证了子域可以访问父域，而父域不能访问子域的原则，并且表明，浏览器会在当前作用域中，寻找是否有这个变量，如果没有，则去父域中寻找，如果沿着作用域与作用域链依然找不到该变量，则该变量为undefined。</p>
+<h2 id="常见错误之变量提升"><a href="#常见错误之变量提升" class="headerlink" title="常见错误之变量提升"></a>常见错误之变量提升</h2><p>变量提升，指的是把后面定义的变量或函数提升到前面的定义中。</p>
+<p>首先，来看看变量的提升，上例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">x=<span class="number">1</span>;</span><br><span class="line">alert(x);</span><br><span class="line"><span class="keyword">var</span> y = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	alert(x); </span><br><span class="line">	<span class="keyword">var</span> x = <span class="number">2</span>;</span><br><span class="line">	alert(x); </span><br><span class="line">&#125;</span><br><span class="line">y();</span><br></pre></td></tr></table></figure>
+<p>这段代码其实会输出1，undefined，2.为什么呢？原因在于，JavaScript解析器在执行这个y函数的时候，会把它里面的声明变量提前到他的作用域的最前面进行声明，上述代码等同于下面这段代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">x=<span class="number">1</span>;</span><br><span class="line">alert(x);</span><br><span class="line"><span class="keyword">var</span> y = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> x;</span><br><span class="line">	alert(x); </span><br><span class="line">	x = <span class="number">2</span>;</span><br><span class="line">	alert(x); </span><br><span class="line">&#125;</span><br><span class="line">y();</span><br></pre></td></tr></table></figure>
+<p>在第一次打印时，x的值为1，第二次打印时，x变量被提升到该函数的最前端，此时的x尚未定义，所以第二次打印出undefined，第三次打印时，x已经被定义为2，所以打印出2。</p>
+<p>然后，再来看看函数的提升</p>
+<p>一般常用的定义函数的方式有两种，一种是使用函数声明语法定义的，如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span> (<span class="params">num1, num2</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> sum1 + sum2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一种是用函数表达式定义的，如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sum = <span class="function"><span class="keyword">function</span>(<span class="params">num1, num2</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> sum1 + sum2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这两种定义函数的区别就在于，解析器在向执行环境中加载数据时，会率先读取函数声明，并使其在执行任何代码之前可用（可以访问）；而对于函数表达式，则必须等到解析器执行到他所在的代码行，才会真正被执行。看下面的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">alert(sum(<span class="number">10</span>,<span class="number">10</span>));</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span> (<span class="params">num1, num2</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> sum1 + sum2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码可以执行。原因在于，此处的函数是函数声明语法定义的。在代码执行之前，解析器就已经通过函数声明提升的过程，读取并将函数声明添加到执行环境中。对代码求值之前，引擎会在第一遍声明函数并将它们放在源代码树的顶部，所以，即使函数声明在调用它的函数后面，JavaScript引擎也能将声明提升到顶部，从而不影响函数的调用。</p>
+<p>然而，我们把代码改写成等价的函数表达式，代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">alert(sum(<span class="number">10</span>,<span class="number">10</span>));</span><br><span class="line"><span class="keyword">var</span> sum = <span class="function"><span class="keyword">function</span>(<span class="params">num1, num2</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> sum1 + sum2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码将会在执行期间发生错误。因为在于，在执行到函数表达式代码行之前，JavaScript引擎不会执行这行代码，更不会将函数表达式提升到顶部。返回这个例子，在执行到调用语句时，变量sum中不会保存有对函数的引用，因此将会导致”unexpected identified”，不会执行到下一行。 </p>
+<p>最后，我们再来看看一个坑：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">foo(); </span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> color = red;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(color) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"red"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"blue"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码最终打印出来的值是blue，而不是red。按照我们之前所说的，函数声明会被提升到顶部，然而同名函数不会重复定义两次，而是后面定义的函数会覆盖前面定义的内容。因此，foo()函数在一开始就定义为：console.log(blue)，于是这个if函数就变得不起作用了。</p>
+<h2 id="何用之有？"><a href="#何用之有？" class="headerlink" title="何用之有？"></a>何用之有？</h2><p>在一开始说过，作用域与作用域链是JavaScript的核心，也是基础。因此，运用作用域与作用域链，可以更好的理解关于闭包，以及处理好一些坑。<br>再者，由于变量提升是先定义变量在给变量赋值，那么这样无疑是消耗了一些时间，对于网页的性能也是有所降低。<br>所以，这基础的东西并不是没有用处的~</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/18/重新认识border-radius/" rel="next" title="重新认识border-radius">
+                <i class="fa fa-chevron-left"></i> 重新认识border-radius
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/08/CSS布局有感/" rel="prev" title="CSS布局有感">
+                CSS布局有感 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zrw</p>
+              <p class="site-description motion-element" itemprop="description">记录个人学习笔记之地</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#作用域是什么"><span class="nav-number">1.</span> <span class="nav-text">作用域是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作用机制"><span class="nav-number">2.</span> <span class="nav-text">作用机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见错误之变量提升"><span class="nav-number">3.</span> <span class="nav-text">常见错误之变量提升</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#何用之有？"><span class="nav-number">4.</span> <span class="nav-text">何用之有？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zrw</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

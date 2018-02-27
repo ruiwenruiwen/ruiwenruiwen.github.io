@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="javascript," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最近在红包小程序中，遇见一个很神奇的问题。在控制输入的数字最多只能包含两位小数的时候，输入 2.3 竟然会得到 2.29 。具体代码如下： 123456let temp = e.detail.value &amp;gt; parseInt(e.detail.value * 100) / 100 ? parseInt(e.detail.value * 100) / 100 : e.detail.value;">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浮点数运算不精准的解决办法">
+<meta property="og:url" content="http://ruiwenruiwen.github.io/2017/09/20/浮点数运算不精准的解决办法/index.html">
+<meta property="og:site_name" content="ZRW&#39;blog">
+<meta property="og:description" content="最近在红包小程序中，遇见一个很神奇的问题。在控制输入的数字最多只能包含两位小数的时候，输入 2.3 竟然会得到 2.29 。具体代码如下： 123456let temp = e.detail.value &amp;gt; parseInt(e.detail.value * 100) / 100 ? parseInt(e.detail.value * 100) / 100 : e.detail.value;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-09-20T11:48:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浮点数运算不精准的解决办法">
+<meta name="twitter:description" content="最近在红包小程序中，遇见一个很神奇的问题。在控制输入的数字最多只能包含两位小数的时候，输入 2.3 竟然会得到 2.29 。具体代码如下： 123456let temp = e.detail.value &amp;gt; parseInt(e.detail.value * 100) / 100 ? parseInt(e.detail.value * 100) / 100 : e.detail.value;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://ruiwenruiwen.github.io/2017/09/20/浮点数运算不精准的解决办法/"/>
+
+
+
+
+
+  <title>浮点数运算不精准的解决办法 | ZRW'blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZRW'blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ruiwenruiwen.github.io/2017/09/20/浮点数运算不精准的解决办法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zrw">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZRW'blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">浮点数运算不精准的解决办法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-20T19:34:08+08:00">
+                2017-09-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近在红包小程序中，遇见一个很神奇的问题。在控制输入的数字最多只能包含两位小数的时候，输入 <code>2.3</code> 竟然会得到 <code>2.29</code> 。具体代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> temp = e.detail.value &gt; <span class="built_in">parseInt</span>(e.detail.value * <span class="number">100</span>) / <span class="number">100</span> ? <span class="built_in">parseInt</span>(e.detail.value * <span class="number">100</span>) / <span class="number">100</span> : e.detail.value;</span><br><span class="line"><span class="keyword">let</span> tips = <span class="built_in">Number</span>(temp) &gt; <span class="built_in">parseInt</span>(<span class="built_in">Number</span>(temp) * <span class="number">10</span>) / <span class="number">10</span> ? <span class="built_in">parseInt</span>(<span class="built_in">Number</span>(temp) * <span class="number">10</span>) / <span class="number">10</span> : <span class="built_in">Number</span>(temp);</span><br><span class="line"><span class="keyword">this</span>.setData(&#123;</span><br><span class="line">	orderValue: e.detail.value == <span class="string">''</span> ? <span class="string">'0.00'</span> : temp,</span><br><span class="line">	tip: e.detail.value == <span class="string">''</span> ? <span class="string">'0.00'</span> : <span class="built_in">parseFloat</span>(tips*<span class="number">10</span>, <span class="number">10</span>) / <span class="number">100</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>这段代码的核心是判断 <code>e.detail.value</code> 的值是否多于两位小数，如果是的话，就舍去后面输入的数字，保持两位小数，并且把这个数赋值为 <code>temp</code>；再判断 <code>temp</code> 是否是两位小数，如果是，则舍去第二位小数后小数点左移一位，使得 <code>tips</code> 为 <code>temp</code> 的十分之一且最多只有两位小数。我的处理方式是，用 <code>parseInt(e.detail.value * 100)</code> 使得获得小数点右移两位的值，再将小数点左移两位或者截取到两位小数的数。然而问题在于，当 <code>parseInt(2.3 * 100)</code> 的时候，会得到 <code>229</code> ，而不是总所周知的 <code>230</code> ；而且，对于几乎做了一模一样操作的 <code>tips</code> 却没有任何影响。</p>
+<p>查阅资料之后，发现，这是浮点数运算的问题。如果改用 <code>parseFloat(e.detail.value * 100)</code> 就能得到预期的 <code>2.3</code> ，然而， <code>parseFloat(e.detail.value * 100)</code> 并不能解决保留两位小数的问题。</p>
+<p>最终，我的解决方法是，用字符串截取的方式，解决了这个问题。代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> temp = e.detail.value;</span><br><span class="line"><span class="comment">// 保证 temp 的值是输入数字最多保留前两位小数的形式</span></span><br><span class="line">temp = e.detail.value &gt; <span class="built_in">parseInt</span>(e.detail.value * <span class="number">100</span>) / <span class="number">100</span> ? temp.split(<span class="string">'.'</span>)[<span class="number">0</span>] + <span class="string">'.'</span> + temp.split(<span class="string">'.'</span>)[<span class="number">1</span>].substr(<span class="number">0</span>,<span class="number">2</span>) : e.detail.value;</span><br><span class="line"><span class="comment">// 使得 tips 为输入的数字最多保留一位小数的形式</span></span><br><span class="line"><span class="keyword">let</span> tips = <span class="built_in">Number</span>(temp) &gt; <span class="built_in">parseInt</span>(<span class="built_in">Number</span>(temp) * <span class="number">10</span>) / <span class="number">10</span> ? <span class="built_in">parseInt</span>(<span class="built_in">Number</span>(temp) * <span class="number">10</span>) / <span class="number">10</span> : <span class="built_in">Number</span>(temp);</span><br><span class="line"><span class="keyword">this</span>.setData(&#123;</span><br><span class="line">	orderValue: e.detail.value == <span class="string">''</span> ? <span class="string">'0.00'</span> : temp,</span><br><span class="line">	tip: e.detail.value == <span class="string">''</span> ? <span class="string">'0.00'</span> : <span class="built_in">parseFloat</span>(tips * <span class="number">10</span>, <span class="number">10</span>) / <span class="number">100</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>然而，这并没有结束……</p>
+<a id="more"></a>
+<h2 id="浮点数计算不精准的由来"><a href="#浮点数计算不精准的由来" class="headerlink" title="浮点数计算不精准的由来"></a>浮点数计算不精准的由来</h2><p>遇见问题不能因为避开原有的陷阱解决了问题就以为万事已经解决妥当了。我们得看看，是什么导致 <code>2.3  / 10</code> 离奇变成 <code>2.29</code>，是什么让 <code>2.3 * 0.1</code> 也失去了梦想，又是什么让 <code>2.3 * 10 / 100</code> 坚守初心，究竟是什么让四则运算偏离公知轨道。让我们走进这一期的《走近科学》——</p>
+<p>浮点数计算不精准，其实是 JavaScript 内部的问题。因为 Javascript 中所有的数字都是以 <a href="https://zh.wikipedia.org/wiki/IEEE_754" target="_blank" rel="noopener">IEEE-754</a> 标准格式表示的，其中的小数用的是二进制表示，这就导致了有些小数以二进制表示位数是无穷的。比如说，上述说的 0.3 ，它的二进制表示是：0.0100 1100 1100 1100 …</p>
+<p>因此，对于某些浮点数的表示， JavaScript 只能保证尽量的接近，而不能保证完全等于，更何况说对于浮点数的计算了。</p>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>所幸的是，尽管 JavaScript 对于某些浮点数的表示并不能完全等于，可是它的计算是可靠的。这点在于 JavaScript 对于整数的计算都是精准的可以看出。我们再来看看上述例子的解决方案：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> temp = e.detail.value;</span><br><span class="line"><span class="comment">// 保证 temp 的值是输入数字最多保留前两位小数的形式</span></span><br><span class="line">temp = e.detail.value &gt; <span class="built_in">parseInt</span>(e.detail.value * <span class="number">100</span>) / <span class="number">100</span> ? temp.split(<span class="string">'.'</span>)[<span class="number">0</span>] + <span class="string">'.'</span> + temp.split(<span class="string">'.'</span>)[<span class="number">1</span>].substr(<span class="number">0</span>,<span class="number">2</span>) : e.detail.value;</span><br><span class="line"><span class="comment">// 使得 tips 为输入的数字最多保留一位小数的形式</span></span><br><span class="line"><span class="keyword">let</span> tips = <span class="built_in">Number</span>(temp) &gt; <span class="built_in">parseInt</span>(<span class="built_in">Number</span>(temp) * <span class="number">10</span>) / <span class="number">10</span> ? <span class="built_in">parseInt</span>(<span class="built_in">Number</span>(temp) * <span class="number">10</span>) / <span class="number">10</span> : <span class="built_in">Number</span>(temp);</span><br><span class="line"><span class="keyword">this</span>.setData(&#123;</span><br><span class="line">	orderValue: e.detail.value == <span class="string">''</span> ? <span class="string">'0.00'</span> : temp,</span><br><span class="line">	tip: e.detail.value == <span class="string">''</span> ? <span class="string">'0.00'</span> : <span class="built_in">parseInt</span>(tips * <span class="number">10</span>, <span class="number">10</span>) / <span class="number">100</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>对于 <code>tips</code> ，它依然是用了 <code>parseInt()</code> 这个方法，和一开始对 <code>temp</code> 的操作不同在于，<code>tips</code> 最多只有一位小数，而在而 <code>parseInt(tips * 10, 10)</code> 函数参数中，正好将 <code>parseInt(tips * 10, 10) / 100</code> 的被除数转化成整数，从而使得整个式子变成精准的整数之间的计算。</p>
+<p>因此，对于浮点数计算不精准的解决方案，已经有了一个思路了——那就是先让浮点数先乘以 10 的 n 次方，使得浮点数能够化为整数，在进行运算，最终将运算结果除以 10 的 n 次方，使得运算过程都是整数间的运算，保证了运算的精准。</p>
+<p>在小项目中，可以通过这个思路来避免 JavaScript 浮点数运算不精准的问题，而在大项目中，当然更适合封装好的方法。</p>
+<p>以下是封装好的代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 实现得到精确乘法的方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">newMul</span>(<span class="params">arg1, arg2</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> t1 = <span class="number">0</span>, t2 = <span class="number">0</span>, num1, num2;</span><br><span class="line">	<span class="built_in">console</span>.log(arg1, arg2);</span><br><span class="line">	<span class="comment">// 防止没有小数部分等意外情况</span></span><br><span class="line">	<span class="comment">// 得到两数小数部分的长度</span></span><br><span class="line">	<span class="keyword">try</span>&#123;</span><br><span class="line">		t1 = arg1.toString().split(<span class="string">"."</span>)[<span class="number">1</span>].length;</span><br><span class="line">	&#125; <span class="keyword">catch</span>(e) &#123;&#125;</span><br><span class="line">	<span class="keyword">try</span>&#123;</span><br><span class="line">		t2 = arg2.toString().split(<span class="string">"."</span>)[<span class="number">1</span>].length;</span><br><span class="line">	&#125; <span class="keyword">catch</span>(e) &#123;&#125;</span><br><span class="line">	<span class="comment">// 使这两位数等同于分别乘他们小数的位数，得到一个整数</span></span><br><span class="line">	<span class="comment">// 比如 2.33 就乘 100 得到 233</span></span><br><span class="line">	num1 = <span class="built_in">Number</span>(arg1.toString().replace(<span class="string">"."</span>,<span class="string">""</span>));</span><br><span class="line">	num2 = <span class="built_in">Number</span>(arg2.toString().replace(<span class="string">"."</span>,<span class="string">""</span>));</span><br><span class="line">	<span class="comment">// 返回运算后的值</span></span><br><span class="line">	<span class="comment">// 其中，除去了之前乘上的数</span></span><br><span class="line">	<span class="keyword">return</span> num1 * num2 / <span class="built_in">Math</span>.pow(<span class="number">10</span>, t1 + t2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现得到精确除法的方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">newDiv</span>(<span class="params">arg1, arg2</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> t1 = <span class="number">0</span>, t2 = <span class="number">0</span>, num1, num2;</span><br><span class="line">	<span class="keyword">try</span>&#123;</span><br><span class="line">		t1 = arg1.toString().split(<span class="string">"."</span>)[<span class="number">1</span>].length;</span><br><span class="line">	&#125; <span class="keyword">catch</span>(e) &#123;&#125;</span><br><span class="line">	<span class="keyword">try</span>&#123;</span><br><span class="line">		t2 = arg2.toString().split(<span class="string">"."</span>)[<span class="number">1</span>].length;</span><br><span class="line">	&#125; <span class="keyword">catch</span>(e) &#123;&#125;</span><br><span class="line">	num1 = <span class="built_in">Number</span>(arg1.toString().replace(<span class="string">"."</span>,<span class="string">""</span>));</span><br><span class="line">	num2 = <span class="built_in">Number</span>(arg2.toString().replace(<span class="string">"."</span>,<span class="string">""</span>));</span><br><span class="line">	<span class="keyword">return</span> num1 / num2 * <span class="built_in">Math</span>.pow(<span class="number">10</span>, t1 - t2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现得到精确加法的方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">newAdd</span>(<span class="params">arg1, arg2</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> t1 = <span class="number">0</span>, t2 = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">try</span>&#123;</span><br><span class="line">		t1 = arg1.toString().split(<span class="string">"."</span>)[<span class="number">1</span>].length;</span><br><span class="line">	&#125; <span class="keyword">catch</span>(e) &#123;&#125;</span><br><span class="line">	<span class="keyword">try</span>&#123;</span><br><span class="line">		t2 = arg2.toString().split(<span class="string">"."</span>)[<span class="number">1</span>].length;</span><br><span class="line">	&#125; <span class="keyword">catch</span>(e) &#123;&#125;</span><br><span class="line">	<span class="comment">// 得到能让两数小数点右移乘整数的最小值</span></span><br><span class="line">	e = <span class="built_in">Math</span>.pow(<span class="number">10</span>, <span class="built_in">Math</span>.max(t1, t2));</span><br><span class="line">	<span class="comment">// 两数都乘这个值，使得两数都是整数方便运算，再除以这个值</span></span><br><span class="line">	<span class="keyword">return</span> (arg1 * e + arg2 * e) / e;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现得到精确减法的方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">newSub</span>(<span class="params">arg1, arg2</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> t1 = <span class="number">0</span>, t2 = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">try</span>&#123;</span><br><span class="line">		t1 = arg1.toString().split(<span class="string">"."</span>)[<span class="number">1</span>].length;</span><br><span class="line">	&#125; <span class="keyword">catch</span>(e) &#123;&#125;</span><br><span class="line">	<span class="keyword">try</span>&#123;</span><br><span class="line">		t2 = arg2.toString().split(<span class="string">"."</span>)[<span class="number">1</span>].length;</span><br><span class="line">	&#125; <span class="keyword">catch</span>(e) &#123;&#125;</span><br><span class="line">	e = <span class="built_in">Math</span>.pow(<span class="number">10</span>, <span class="built_in">Math</span>.max(t1, t2));</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">Number</span>(((arg1 * e - arg2 *e) / e));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 减法函数也可以表示成</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">anotherSub</span>(<span class="params">arg1, arg2</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> newAdd(arg1, -arg2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将上述方法封装为 Number 类型的方法，方便调用</span></span><br><span class="line"><span class="built_in">Number</span>.prototype.mul = <span class="function"><span class="keyword">function</span>(<span class="params">arg1, arg2</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> newMul.call(<span class="keyword">this</span>, arg1, arg2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Number</span>.prototype.div = <span class="function"><span class="keyword">function</span>(<span class="params">arg1, arg2</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> newDiv.call(<span class="keyword">this</span>, arg1, arg2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Number</span>.prototype.add = <span class="function"><span class="keyword">function</span>(<span class="params">arg1, arg2</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> newAdd.call(<span class="keyword">this</span>, arg1, arg2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Number</span>.prototype.sub = <span class="function"><span class="keyword">function</span>(<span class="params">arg1, arg2</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> newSub.call(<span class="keyword">this</span>, arg1, arg2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本篇是对红包小程序某个 bug 的后续思考以及解决的过程。本篇的重点：JavaScript 某些浮点数运算不精准是因为 JavaScript 对于浮点数的表示本身就不精准导致的。解决办法就是：用把浮点数转化成整数的形式，进行运算，得到结果后除去所增加的倍数，最终得到原来运算的精准结果。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/03/拖延癌晚期治疗/" rel="next" title="拖延癌晚期治疗">
+                <i class="fa fa-chevron-left"></i> 拖延癌晚期治疗
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/13/深入学习之——javascript 中的类型和值/" rel="prev" title="深入学习之——javascript 中的类型和值">
+                深入学习之——javascript 中的类型和值 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zrw</p>
+              <p class="site-description motion-element" itemprop="description">记录个人学习笔记之地</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点数计算不精准的由来"><span class="nav-number">1.</span> <span class="nav-text">浮点数计算不精准的由来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决办法"><span class="nav-number">2.</span> <span class="nav-text">解决办法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zrw</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

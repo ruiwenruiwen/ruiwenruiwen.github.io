@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="css,css3," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="其实在之前也接触过border-radius，不过只是简单的用“border-radius: 50%;”  来画一个圆；或者是用”border-radius: 50px;” 来画出想要的圆角矩形。然而，这个礼拜听了果姐姐讲的关于border-radius的内容，并且翻阅了几篇博文，终于让我解锁了border-radius的新姿势。">
+<meta name="keywords" content="css,css3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重新认识border-radius">
+<meta property="og:url" content="http://ruiwenruiwen.github.io/2016/07/18/重新认识border-radius/index.html">
+<meta property="og:site_name" content="ZRW&#39;blog">
+<meta property="og:description" content="其实在之前也接触过border-radius，不过只是简单的用“border-radius: 50%;”  来画一个圆；或者是用”border-radius: 50px;” 来画出想要的圆角矩形。然而，这个礼拜听了果姐姐讲的关于border-radius的内容，并且翻阅了几篇博文，终于让我解锁了border-radius的新姿势。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-02-27T06:05:37.292Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="重新认识border-radius">
+<meta name="twitter:description" content="其实在之前也接触过border-radius，不过只是简单的用“border-radius: 50%;”  来画一个圆；或者是用”border-radius: 50px;” 来画出想要的圆角矩形。然而，这个礼拜听了果姐姐讲的关于border-radius的内容，并且翻阅了几篇博文，终于让我解锁了border-radius的新姿势。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://ruiwenruiwen.github.io/2016/07/18/重新认识border-radius/"/>
+
+
+
+
+
+  <title>重新认识border-radius | ZRW'blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZRW'blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ruiwenruiwen.github.io/2016/07/18/重新认识border-radius/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zrw">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZRW'blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">重新认识border-radius</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-18T00:00:00+08:00">
+                2016-07-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>其实在之前也接触过border-radius，不过只是简单的用“border-radius: 50%;”  来画一个圆；或者是用”border-radius: 50px;” 来画出想要的圆角矩形。然而，这个礼拜听了果姐姐讲的关于border-radius的内容，并且翻阅了几篇博文，终于让我解锁了border-radius的新姿势。</p>
+<a id="more"></a>
+<h2 id="border-radius的原理与规则"><a href="#border-radius的原理与规则" class="headerlink" title="border-radius的原理与规则"></a>border-radius的原理与规则</h2><p>首先，border-radius的中文含义是边框半径。它是通过设置边框四周的角的边框半径从而达到画圆角矩形，圆，椭圆的效果。</p>
+<p>和margin，padding有些相似，border-radius也是有四个按照顺时针顺序值重复的值，然而和margin，padding不同的是，border-radius的四个属性分别是“topleft, topright, bottomright, bottomleft”。border-radius可以同时设置1-4个值，规则如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">border-radius:<span class="number">50</span>px; <span class="comment">//表示4个圆角都使用这个值</span></span><br><span class="line"></span><br><span class="line">border-radius:<span class="number">50</span>px <span class="number">25</span>px; <span class="comment">//表示左上角和右下角使用第一个值，右上角和左下角使用第二个值</span></span><br><span class="line"></span><br><span class="line">border-radius:<span class="number">25</span>px <span class="number">10</span>px <span class="number">50</span>px; <span class="comment">//左上角使用第一个值，右上角和左下角使用第二个值，右下角使用第三个值</span></span><br><span class="line"></span><br><span class="line">border-radius:<span class="number">25</span>px <span class="number">10</span>px <span class="number">50</span>px <span class="number">0</span>;<span class="comment">//左上角、右上角、右下角、左下角(顺时针顺序)</span></span><br></pre></td></tr></table></figure>
+<p>而且border-radius还有水平半径和垂直半径之分。顾名思义，在水平方向上的半径叫做水平半径，在竖直方向上的半径叫做垂直半径。</p>
+<p>水平半径和垂直半径之间用/来区分。如果只设置一组值，如同前面我们所说的，表示水平半径与垂直半径相等，如果设置两个值，并且用/来区分，第一组值表示水平半径，第二组值表示垂直半径它们都遵循值重复的原则。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">border-radius:<span class="number">50</span>px/<span class="number">25</span>px;  //表示水平半径为<span class="number">50</span>px，垂直半径为<span class="number">25</span>px</span><br><span class="line"></span><br><span class="line">border-radius: <span class="number">100</span>px <span class="number">25</span>px <span class="number">80</span>px <span class="number">5</span>px / <span class="number">45</span>px <span class="number">25</span>px <span class="number">30</span>px <span class="number">15</span>px;      //表示水平半径为左上<span class="number">100</span>px，右上<span class="number">25</span>px，右下<span class="number">80</span>px，左下<span class="number">5</span>px，垂直半径为左上<span class="number">45</span>px，右上<span class="number">25</span>px，右下<span class="number">30</span>px，左下<span class="number">15</span>px</span><br></pre></td></tr></table></figure>
+<p>除了同时设置四个圆角以外，还可以单独对每个角进行设置。对应四个角，他们的属性分别是：</p>
+<p>　　border-top-left-radius<br>　　border-top-right-radius<br>　　border-bottom-right-radius<br>　　border-bottom-left-radius</p>
+<p>同样的，它们也遵循上述值重复与水平半径和垂直半径的原则。以下不再赘述。</p>
+<h2 id="border-radius好玩的应用"><a href="#border-radius好玩的应用" class="headerlink" title="border-radius好玩的应用"></a>border-radius好玩的应用</h2><p>知道了border-radius的原理和规则，我们就能愉快的用它来搞(wei)大(suo)新(yu)闻(wei)了。</p>
+<ol>
+<li>圆角矩形</li>
+</ol>
+<p>这玩意应该是比较常接触的border-radius的一种应用了。他的用法很简单，可以用以下代码实现。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">border-radius: <span class="number">50</span>px;</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>实心圆</li>
+</ol>
+<p>border-radius可以用百分比来定义圆角的半径，因此，当其单个值被设置为50%时，可以绘出1/4个圆弧。因此，当div的宽高相同，border-radius设置为50%时，即可以画出一个圆。画实心圆可以用以下代码实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">div&#123;</span><br><span class="line">width：<span class="number">200</span>px；</span><br><span class="line">height：<span class="number">200</span>px；</span><br><span class="line">background-color：<span class="comment">#FFF；</span></span><br><span class="line">border-radius: <span class="number">50</span>%;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>空心圆</li>
+</ol>
+<p>画空心圆，可以用div内部颜色与背景色相同的方法，设置边框颜色，其中需要注意的是，border（边框）的宽度需要小于高度，宽度的一半。代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">div&#123;</span><br><span class="line">width：<span class="number">200</span>px；</span><br><span class="line">height：<span class="number">200</span>px；</span><br><span class="line">background-color：<span class="comment">#FFF；</span></span><br><span class="line">border：<span class="number">5</span>px <span class="comment">#efefef solid；</span></span><br><span class="line">border-radius: <span class="number">50</span>%;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>操场图案</li>
+</ol>
+<p>操场是两边半圆中间夹着一个矩形。前面提到，当border-radius的单个圆角值设置为50%时，可以画出一个1/4的圆弧。然而我们知道50%是相对于div而言的，也就是说，如果用border-radius画出一个操场图案的话，可以把圆角半径设置为较短的一边的50%，使得两边画出半圆。代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">div&#123;</span><br><span class="line">width：<span class="number">600</span>px；</span><br><span class="line">height：<span class="number">200</span>px；</span><br><span class="line">background-color：<span class="comment">#FFF；</span></span><br><span class="line">border-radius: <span class="number">100</span>px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>椭圆</li>
+</ol>
+<p>椭圆是一段光滑的曲线，因此，如果要画椭圆的话，需要把水平半径设置为宽度的一半，垂直半径设置为高度的一半。代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">div&#123;</span><br><span class="line">width：<span class="number">200</span>px；</span><br><span class="line">height：<span class="number">100</span>px；</span><br><span class="line">background-color：<span class="comment">#FFF；</span></span><br><span class="line">border-radius: <span class="number">100</span>px/<span class="number">50</span>px;//此处用<span class="number">50</span>%也行。</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="注意兼容"><a href="#注意兼容" class="headerlink" title="注意兼容"></a>注意兼容</h2><p>border-radius只有在以下版本的浏览器：Firefox4.0+、Google Chrome 10.0+、Opera 10.5+、IE9+支持border-radius标准语法格式，对于老版的浏览器，border-radius需要根据不同的浏览器内核添加不同的前缀。比说Mozilla内核需要加上“-moz”，而Webkit内核需要加上“-webkit”等，那么为了能兼容各大内核的老版浏览器，我们需要作出兼容。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/css/" rel="tag"># css</a>
+          
+            <a href="/tags/css3/" rel="tag"># css3</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/27/浅析JavaScript之核心——作用域与作用域链/" rel="prev" title="浅析JavaScript之核心——作用域与作用域链">
+                浅析JavaScript之核心——作用域与作用域链 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zrw</p>
+              <p class="site-description motion-element" itemprop="description">记录个人学习笔记之地</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#border-radius的原理与规则"><span class="nav-number">1.</span> <span class="nav-text">border-radius的原理与规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#border-radius好玩的应用"><span class="nav-number">2.</span> <span class="nav-text">border-radius好玩的应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意兼容"><span class="nav-number">3.</span> <span class="nav-text">注意兼容</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zrw</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
